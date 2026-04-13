@@ -24,3 +24,6 @@ Thumbs.db
 
 # Docker
 .docker/
+
+# WAR artifacts
+*.war
