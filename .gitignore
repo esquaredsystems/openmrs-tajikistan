@@ -1,0 +1,26 @@
+# IDE files
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Environment variables
+.env
+
+# OpenMRS Data (if running locally)
+openmrs-data/
+
+# Log files
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker
+.docker/

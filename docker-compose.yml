@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  openmrs:
+    build: .
+    container_name: openmrs_app
+    restart: always
+    ports:
+      - "${OPENMRS_HOST_PORT:-8080}:8080"
+    env_file:
+      - .env
+    environment:
+      # Doubling resources: A typical OpenMRS default is -Xmx1024m. 
+      # Since it's a beefy machine, we'll set it to 2048m or 4096m. 
+      # Doubling the 'default' (often 1g/2g), let's set it to -Xms2g -Xmx4g.
+      JAVA_OPTS: "-Xms2g -Xmx4g -Dopenmrs.runtime.properties.path=/root/.OpenMRS/openmrs-runtime.properties"
+      
+      # Mapping database credentials from .env
+      # Note: OpenMRS needs these in runtime properties, 
+      # but we provide them here in case we need to generate them at startup or use env vars.
+      OPENMRS_DB_HOST: ${OPENMRS_DB_HOST}
+      OPENMRS_DB_PORT: ${OPENMRS_DB_PORT}
+      OPENMRS_DB_NAME: ${OPENMRS_DB_NAME}
+      OPENMRS_DB_USER: ${OPENMRS_DB_USER}
+      OPENMRS_DB_PASSWORD: ${OPENMRS_DB_PASSWORD}
+    
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    
+    volumes:
+      - openmrs-data:/root/.OpenMRS
+
+volumes:
+  openmrs-data:

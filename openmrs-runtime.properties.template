@@ -1,0 +1,16 @@
+### OpenMRS Tajikistan - Runtime Properties
+# Automatically generated for Docker deployment
+
+connection.url=jdbc:mysql://${OPENMRS_DB_HOST}:${OPENMRS_DB_PORT}/${OPENMRS_DB_NAME}?autoReconnect=true&sessionVariables=default_storage_engine=InnoDB&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+connection.username=${OPENMRS_DB_USER}
+connection.password=${OPENMRS_DB_PASSWORD}
+connection.driver_class=com.mysql.cj.jdbc.Driver
+
+# Security
+encryption.vector=some_vector_value_here
+encryption.password=some_password_value_here
+
+# Application setup
+application_data_directory=/root/.OpenMRS
+module.allow_web_admin=true
+auto_update_database=true
