@@ -1,6 +1,21 @@
 version: '3.8'
 
 services:
+  redis:
+    image: redis:7-alpine
+    container_name: openmrs_redis
+    restart: always
+    ports:
+      - "${REDIS_HOST_PORT:-6379}:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   openmrs:
     build: .
     container_name: openmrs_app
@@ -10,25 +25,31 @@ services:
     env_file:
       - .env
     environment:
-      # Doubling resources: A typical OpenMRS default is -Xmx1024m. 
-      # Since it's a beefy machine, we'll set it to 2048m or 4096m. 
-      # Doubling the 'default' (often 1g/2g), let's set it to -Xms2g -Xmx4g.
+      # Doubling resources: A typical OpenMRS default is -Xmx1024m.
       JAVA_OPTS: "-Xms2g -Xmx4g -Dopenmrs.runtime.properties.path=/root/.OpenMRS/openmrs-runtime.properties"
-      
+
       # Mapping database credentials from .env
-      # Note: OpenMRS needs these in runtime properties, 
-      # but we provide them here in case we need to generate them at startup or use env vars.
+      # Note: OpenMRS needs these in runtime properties, but we provide them here in case we need to generate them at startup or use env vars.
       OPENMRS_DB_HOST: ${OPENMRS_DB_HOST}
       OPENMRS_DB_PORT: ${OPENMRS_DB_PORT}
       OPENMRS_DB_NAME: ${OPENMRS_DB_NAME}
       OPENMRS_DB_USER: ${OPENMRS_DB_USER}
       OPENMRS_DB_PASSWORD: ${OPENMRS_DB_PASSWORD}
+      
+      # Redis configuration
+      REDIS_HOST: ${REDIS_HOST:-redis}
+      REDIS_PORT: ${REDIS_PORT:-6379}
     
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    
+    depends_on:
+      redis:
+        condition: service_healthy
     
     volumes:
       - openmrs-data:/root/.OpenMRS
 
 volumes:
   openmrs-data:
+  redis-data:
