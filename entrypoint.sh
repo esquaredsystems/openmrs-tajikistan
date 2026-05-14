@@ -34,7 +34,7 @@ done
 
 # Ensure the database exists
 echo "Ensuring database $OPENMRS_DB_NAME exists..."
-mysql -h "$OPENMRS_DB_HOST" -P "$OPENMRS_DB_PORT" -u "$OPENMRS_DB_USER" -p"$OPENMRS_DB_PASSWORD" -e "CREATE DATABASE IF NOT EXISTS $OPENMRS_DB_NAME CHARACTER SET utf8 COLLATE utf8_general_ci;"
+mysql -h "$OPENMRS_DB_HOST" -P "$OPENMRS_DB_PORT" -u "$OPENMRS_DB_USER" -p"$OPENMRS_DB_PASSWORD" -e "CREATE DATABASE IF NOT EXISTS $OPENMRS_DB_NAME CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 
 # Check if we should execute the init script
 # We'll check if the 'users' table exists, which is a core OpenMRS table.
