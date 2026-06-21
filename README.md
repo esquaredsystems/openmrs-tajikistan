@@ -29,16 +29,32 @@ This project provides a Dockerized setup for OpenMRS, specifically configured fo
 
 ## Running the Project
 
-To build and start the OpenMRS container, run:
+### Run the full stack
+
+To build and start all services (OpenMRS, Redis, and MDR-TB Web):
 
 ```bash
 docker-compose up --build -d
 ```
 
-The application will be accessible at: `http://localhost:8080/openmrs` (or the port specified in your `.env` file).
+The services will be accessible at:
+- **OpenMRS:** `http://localhost:8080/openmrs` (or `OPENMRS_HOST_PORT` in `.env`)
+- **MDR-TB Web:** `http://localhost:8000` (or `MDRTB_WEB_HOST_PORT` in `.env`)
+
+### Individual Deployment
+
+If you want to run only the MDR-TB Web application:
+
+```bash
+docker-compose up --build -d mdrtb-web
+```
+
+Note: The `mdrtb-web` service depends on `openmrs`. Docker Compose will automatically start the `openmrs` container if it's not already running.
 
 ## Project Structure
 
+- `openmrs-module-mdrtb-web/`: The Django-based MDR-TB Web application.
+- `openmrs-mdrtb-etl-job/`: ETL job for MDR-TB data processing.
 - `Dockerfile`: Defines the Tomcat-based Docker image for OpenMRS.
 - `docker-compose.yml`: Orchestrates the OpenMRS container.
 - `entrypoint.sh`: Handles environment variable substitution in `openmrs-runtime.properties`, waits for the database, and initializes it if necessary.
