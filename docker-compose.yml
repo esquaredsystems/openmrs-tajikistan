@@ -50,6 +50,22 @@ services:
     volumes:
       - openmrs-data:/root/.OpenMRS
 
+  mdrtb-web:
+    build:
+      context: ./openmrs-module-mdrtb-web
+    container_name: mdrtb_web
+    restart: always
+    ports:
+      - "${MDRTB_WEB_HOST_PORT:-8000}:8000"
+    env_file:
+      - .env
+    environment:
+      - REST_API_BASE_URL=http://openmrs:8080/openmrs/ws/rest/v1/
+      - REDIS_LOCATION=redis://redis:6379/1
+    depends_on:
+      - openmrs
+      - redis
+
 volumes:
   openmrs-data:
   redis-data:
