@@ -27,3 +27,6 @@ Thumbs.db
 
 # WAR artifacts
 *.war
+/openmrs-mdrtb-etl-job
+/openmrs-module-mdrtb-web
+/openmrs-module-mdrtb
