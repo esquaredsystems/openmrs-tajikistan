@@ -2,7 +2,7 @@
 # Format: terse DSL. One fact per line. → = dependency/reference. # = comment.
 # Scope: ONLY info that spans all 3 modules. Module-specific detail lives in
 #   <module>/.agents/graph.md — see § MODULE MAP for pointers.
-# Last updated: 2026-07-02
+# Last updated: 2026-10-26 (concept name locales; Manage Concepts)
 
 ## § MODULE MAP
 ```
@@ -88,6 +88,7 @@ TRANSFER_IN          = 1eb25540-552c-4641-9913-c7545fe0777f
 TRANSFER_OUT         = e27d997c-3f93-460b-ad84-77db79e2661e
 RESISTANCE_DURING_TX = a3ca01a4-6ff8-4909-b483-1ceb0f354d40
 PV_REGIMEN           = 99f4f9d8-b23f-4406-bb03-03e1237634aa
+END_OF_TREATMENT     = 6159db06-cb90-11f1-b723-57d5294d0531  # liquibase 2026-10-19; needs TB03 (DOTS) / TB03u (MDR) on same program; NOT yet in web encounterType.py
 ```
 
 ## § KEY CONCEPT UUIDS (stored as Obs.concept_id or Obs.value_coded — shared by all modules)
@@ -176,6 +177,7 @@ OPENMRS_DB_NAME       default: openmrs
 OPENMRS_DB_USER       default: openmrs
 OPENMRS_DB_PASSWORD   default: openmrs
 OPENMRS_HOST_PORT     default: 8080
+OPENMRS_DEBUG_PORT    default: 5005   # JDWP remote debug, bound to 127.0.0.1 only (docker-compose.yml); suspend=n
 REDIS_HOST            default: redis
 REDIS_PORT            default: 6379
 MDRTB_WEB_HOST_PORT   default: 8000
@@ -204,6 +206,7 @@ Health checks:
 ## § LOCALIZATION (overview — file locations in each module's graph.md)
 ```
 Languages: en | ru | tj | en_GB    # tj = Tajik (primary target), default locale = ru
+Concepts: concept_name / concept_description locales en | ru | tj (edited in web Administration -> Manage Concepts)
 Web:  session locale from OpenMRS userProperties.locale; switch via GET /changelocale/<locale>
 Java: messages_{tj,ru,fr,id_ID}.properties in api+omod resources
 ```
