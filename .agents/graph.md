@@ -2,7 +2,7 @@
 # Format: terse DSL. One fact per line. → = dependency/reference. # = comment.
 # Scope: ONLY info that spans all 3 modules. Module-specific detail lives in
 #   <module>/.agents/graph.md — see § MODULE MAP for pointers.
-# Last updated: 2026-10-26 (concept name locales; Manage Concepts)
+# Last updated: 2026-11-15 (added § REPORTING PERIODS — months run 26th → 25th)
 
 ## § MODULE MAP
 ```
@@ -73,6 +73,20 @@ TreatmentState:       NOT_ON_TREATMENT|ON_TREATMENT
 SampleStatus:         COLLECTED|ACCEPTED|PROCESSED|REJECTED
 Locale:               en|ru|tj|en_GB    # tj = Tajik (primary target)
 Programs:             DOTS=e80fec43-f2b5-45b0-aec1-eaf74be26ff9 | MDR_TB=34198d48-0370-102d-b0e3-001ec94a0cc1
+```
+
+## § REPORTING PERIODS (Tajikistan reporting calendar — applies to ALL reports: TB03/TB07/TB08/Form8/DQ/AE…)
+# Reporting months run 26th → 25th, NOT 1st → end of month.
+# Computed in ONE place: openmrs-module-mdrtb/api/.../reporting/ReportUtil.getPeriodDates(year, quarter, month[, month2])
+# mdrtb-web only forwards ?year/&quarter/&month/&month2 to the REST report resources; it does no date maths.
+```
+month M of year Y  = 26.(M-1) 00:00:00 → 25.M 23:59:59     # January 2023 = 26 Dec 2022 → 25 Jan 2023
+quarter Q          = 26th of month before first month → 25th of last month   # Q1 2023 = 26 Dec 2022 → 25 Mar 2023
+year only          = 26 Dec (Y-1) → 25 Dec Y                 # Dec 26–31 belong to the NEXT reporting year
+no year/quarter/month = start null (beginning of time) → now
+Filter column      = Encounter.encounter_datetime (e.g. TB03 date for TB07), NOT obs/treatment dates
+KNOWN BUG (2026-11-15): month2 (end of a month range) is ignored → any month=… request covers ONE month only.
+  ReportUtil.java:250 parses monthObj instead of month2Obj; getTB03FormsFilled also calls the 3-arg overload.
 ```
 
 ## § ENCOUNTER TYPES (UUIDs — defined in Java module, mirrored in web resources/enums/encounterType.py)

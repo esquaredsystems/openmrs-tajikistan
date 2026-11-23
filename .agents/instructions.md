@@ -22,6 +22,7 @@ only that file/function. Do not read whole files to find a UUID or route.
 |---|---|
 | Docker, startup, infra, cross-module data flow | `.agents/graph.md` |
 | A concept/encounter-type/identifier UUID | `.agents/graph.md` (§ KEY CONCEPT UUIDS etc.) |
+| Report date ranges (months run 26th → 25th) | `.agents/graph.md` § REPORTING PERIODS |
 | Django views, URLs, auth, sessions, caching, UI | `openmrs-module-mdrtb-web/.agents/graph.md` |
 | Java module, JSPs, Maven, REST resource classes, global properties | `openmrs-module-mdrtb/.agents/graph.md` |
 | Data migration, staging tables, extract/load | `openmrs-mdrtb-etl-job/.agents/AGENTS.md` + `graph.md` |
@@ -57,6 +58,7 @@ that owns the fact — never duplicate a fact in two graphs:
 | Config key added (Docker/env) | root `.agents/graph.md` § DOCKER / DEPLOYMENT CONFIG |
 | New .omod module deployed | root `.agents/graph.md` § MODULES DEPLOYED |
 | Startup / compose change | root `.agents/graph.md` § STARTUP FLOW |
+| Report date range / period logic | root `.agents/graph.md` § REPORTING PERIODS |
 
 Update the `# Last updated:` timestamp at the top of the edited graph.md.
 
